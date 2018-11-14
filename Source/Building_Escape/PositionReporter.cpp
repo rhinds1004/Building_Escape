@@ -24,6 +24,7 @@ void UPositionReporter::BeginPlay()
 	FString ObjectPos = GetOwner()->GetTransform().GetLocation().ToCompactString();
 	
 	UE_LOG(LogTemp, Warning, TEXT("%s at location %s!"), *ObjectName, *ObjectPos);
+	//
 //	 ObjectPos = GetOwner()->GetTransform().GetLocation().ToString();
 //	UE_LOG(LogTemp, Warning, TEXT("%s at location %s!"), *ObjectName, *ObjectPos);
 	//UE_LOG(LogTemp, Warning, TEXT("Position Reporter on %s!"), *(GetOwner()->GetName()));
