@@ -27,6 +27,8 @@ public:
 
 	void OpenDoor();
 
+	void CloseDoor();
+
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -35,7 +37,7 @@ private:
 	UPROPERTY(EditAnywhere)
 		ATriggerVolume *PressurePlate;
 
-	UPROPERTY(EditAnyWhere)
+	//UPROPERTY(EditAnyWhere)
 		AActor *ActorThatOpens;  //Remember pawn inherits from  actor. The actor is set in the Unreal editor 
 	
 };
