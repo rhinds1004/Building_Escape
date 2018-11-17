@@ -31,13 +31,17 @@ public:
 
 
 private:
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere)
 		float OpenAngle = 90.0f;
 
 	UPROPERTY(EditAnywhere)
 		ATriggerVolume *PressurePlate;
 
+	UPROPERTY(EditAnywhere)
+		float DoorCloseDelay = 1.0f;
+
+	float DoorLastOpenTime;
 	//UPROPERTY(EditAnyWhere)
 		AActor *ActorThatOpens;  //Remember pawn inherits from  actor. The actor is set in the Unreal editor 
-	
+		AActor *Owner;
 };
