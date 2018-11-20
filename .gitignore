@@ -261,3 +261,8 @@ __pycache__/
 *.pyc
 /Content/StarterContent
 /Intermediate
+/Binaries/Win64/UE4Editor-Building_Escape-1866.dll
+/Binaries/Win64/UE4Editor-Building_Escape-9689.dll
+/Binaries/Win64/UE4Editor-Building_Escape-9451.dll
+/Binaries/Win64/UE4Editor-Building_Escape-9374.dll
+*.dll
