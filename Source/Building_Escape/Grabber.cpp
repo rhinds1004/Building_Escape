@@ -1,6 +1,8 @@
 // Copyright Robert Hinds 2018
 
+
 #include "Grabber.h"
+#include "Gameframework/Actor.h"
 
 
 // Sets default values for this component's properties
@@ -19,7 +21,11 @@ void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	
+	FString ObjectName = GetOwner()->GetName();
+	FString ObjectPos = GetOwner()->GetTransform().GetLocation().ToCompactString();
+
+	UE_LOG(LogTemp, Warning, TEXT("%s at location %s!"), *ObjectName, *ObjectPos);
 	
 }
 
