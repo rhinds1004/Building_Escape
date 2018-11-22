@@ -11,6 +11,9 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUILDING_ESCAPE_API UGrabber : public UActorComponent
 {
 	GENERATED_BODY()
+private:
+	//How far ahead of the player can we reach in cm
+	float Reach = 100.f;
 
 public:	
 	// Sets default values for this component's properties
