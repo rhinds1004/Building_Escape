@@ -17,7 +17,9 @@ UGrabber::UGrabber()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+
+	
+	//UE_LOG(LogTemp, Warning, TEXT("%s at location %s!"), *temp->GetName());
 }
 
 
@@ -32,6 +34,19 @@ void UGrabber::BeginPlay()
 
 	UE_LOG(LogTemp, Warning, TEXT("%s at location %s!"), *ObjectName, *ObjectPos);
 	
+	/// Look for attached Physics Handle
+	/// findComponentByClass is a generic. The diamond operators specify which component to look for.
+	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+
+	if (PhysicsHandle)
+	{
+	///Physics handle is found
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Failed to find PhysicsHandle of %s"), *(GetOwner()->GetName()) )
+	}
+
 }
 
 
@@ -71,6 +86,8 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
 
 		///Line-trace (AKA ray-cast) out to reach distance
+	///A ray shots out from beginning point (PlayerViewPointLocation) to the End point (LineTraceEnd). If any
+	///objects of specified type (ECC_PhysicsBody in thsi case) then a hit is send on the specified channel (ECollisionChannel in this case).
 	GetWorld()->LineTraceSingleByObjectType(
 		OUT Hit,
 		PlayerViewPointLocation,
