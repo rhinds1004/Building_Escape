@@ -10,6 +10,11 @@
 
 #define OUT //just to give context that a parameter is out
 
+void UGrabber::Grab()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Grabbing!"));
+}
+
 // Sets default values for this component's properties
 UGrabber::UGrabber()
 {
@@ -37,7 +42,7 @@ void UGrabber::BeginPlay()
 	/// Look for attached Physics Handle
 	/// findComponentByClass is a generic. The diamond operators specify which component to look for.
 	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-
+	
 	if (PhysicsHandle)
 	{
 	///Physics handle is found
@@ -45,6 +50,22 @@ void UGrabber::BeginPlay()
 	else
 	{
 		UE_LOG(LogTemp, Error, TEXT("Failed to find PhysicsHandle of %s"), *(GetOwner()->GetName()) )
+	}
+
+
+	/// Look for attached Input Component (only appears at runtime)
+	/// findComponentByClass is a generic. The diamond operators specify which component to look for.
+	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
+	if (InputComponent)
+	{
+		//INput handle
+		UE_LOG(LogTemp, Warning, TEXT("Found Input Component of %s"), *GetOwner()->GetName())
+			///Bind the input axis
+			InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Failed to find Input Component of %s"), *GetOwner()->GetName())
 	}
 
 }
