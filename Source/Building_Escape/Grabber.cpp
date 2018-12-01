@@ -13,6 +13,8 @@
 void UGrabber::Grab()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Grabbing!"));
+
+	//Try and reach any actors with physics body collision channel set
 }
 
 void UGrabber::Release()
@@ -20,50 +22,32 @@ void UGrabber::Release()
 	UE_LOG(LogTemp, Warning, TEXT("Released!"));
 }
 
-// Sets default values for this component's properties
-UGrabber::UGrabber()
-{
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+/// Look for attached Physics Handle
+/// findComponentByClass is a generic. The diamond operators specify which component to look for.
+void UGrabber::FindPhysicsHandleComponent() {
 
-
-	
-	//UE_LOG(LogTemp, Warning, TEXT("%s at location %s!"), *temp->GetName());
-}
-
-
-// Called when the game starts
-void UGrabber::BeginPlay()
-{
-	Super::BeginPlay();
-
-	
-	FString ObjectName = GetOwner()->GetName();
-	FString ObjectPos = GetOwner()->GetTransform().GetLocation().ToCompactString();
-
-	UE_LOG(LogTemp, Warning, TEXT("%s at location %s!"), *ObjectName, *ObjectPos);
-	
-	/// Look for attached Physics Handle
-	/// findComponentByClass is a generic. The diamond operators specify which component to look for.
 	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-	
+
 	if (PhysicsHandle)
 	{
-	///Physics handle is found
+		///Physics handle is found
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("Failed to find PhysicsHandle of %s"), *(GetOwner()->GetName()) )
+		UE_LOG(LogTemp, Error, TEXT("Failed to find PhysicsHandle of %s"), *(GetOwner()->GetName()))
 	}
+}
 
 
-	/// Look for attached Input Component (only appears at runtime)
-	/// findComponentByClass is a generic. The diamond operators specify which component to look for.
+/// Look for attached Input Component (only appears at runtime)
+/// findComponentByClass is a generic. The diamond operators specify which component to look for.
+void UGrabber::SetupInputComponent()
+{
+
 	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
 	if (InputComponent)
 	{
-		//INput handle
+		//Input handle
 		UE_LOG(LogTemp, Warning, TEXT("Found Input Component of %s"), *GetOwner()->GetName())
 		///Bind the input axis
 		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
@@ -73,7 +57,30 @@ void UGrabber::BeginPlay()
 	{
 		UE_LOG(LogTemp, Error, TEXT("Failed to find Input Component of %s"), *GetOwner()->GetName())
 	}
+}
 
+// Sets default values for this component's properties
+UGrabber::UGrabber()
+{
+	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
+	// off to improve performance if you don't need them.
+	PrimaryComponentTick.bCanEverTick = true;
+	bWantsBeginPlay = true;
+}
+
+
+// Called when the game starts
+void UGrabber::BeginPlay()
+{
+	Super::BeginPlay();
+	FindPhysicsHandleComponent();
+	SetupInputComponent();
+	
+	FString ObjectName = GetOwner()->GetName();
+	FString ObjectPos = GetOwner()->GetTransform().GetLocation().ToCompactString();
+
+	UE_LOG(LogTemp, Warning, TEXT("%s at location %s!"), *ObjectName, *ObjectPos);
+	
 }
 
 
@@ -131,4 +138,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		UE_LOG(LogTemp, Warning, TEXT("Line trace hit %s"), *(ActorHit->GetName()))
 	}
 }
+
+
+
 

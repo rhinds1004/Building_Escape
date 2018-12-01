@@ -18,7 +18,12 @@ private:
 	float Reach = 100.f;
 	UPhysicsHandleComponent *PhysicsHandle = nullptr;
 	UInputComponent *InputComponent = nullptr;
+	
+	//finds (assumed) attached physics handle
+	void FindPhysicsHandleComponent();
 
+	//Setup (assumed) attached input component
+	void SetupInputComponent();
 
 	///Agruement could be made that we could have an inputcontroller someone where else
 	///and the grabber class registers with it. Then it would be the controllers job
@@ -45,3 +50,5 @@ public:
 	
 	
 };
+
+
