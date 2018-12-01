@@ -15,6 +15,11 @@ void UGrabber::Grab()
 	UE_LOG(LogTemp, Warning, TEXT("Grabbing!"));
 }
 
+void UGrabber::Release()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Released!"));
+}
+
 // Sets default values for this component's properties
 UGrabber::UGrabber()
 {
@@ -60,8 +65,9 @@ void UGrabber::BeginPlay()
 	{
 		//INput handle
 		UE_LOG(LogTemp, Warning, TEXT("Found Input Component of %s"), *GetOwner()->GetName())
-			///Bind the input axis
-			InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+		///Bind the input axis
+		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+		InputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Release);
 	}
 	else
 	{

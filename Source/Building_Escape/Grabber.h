@@ -19,8 +19,16 @@ private:
 	UPhysicsHandleComponent *PhysicsHandle = nullptr;
 	UInputComponent *InputComponent = nullptr;
 
+
+	///Agruement could be made that we could have an inputcontroller someone where else
+	///and the grabber class registers with it. Then it would be the controllers job
+	///to call the grabber and have it do a grab or release function. This would remove
+	///having the input controller code inside the grabber class. The reason we did it this
+	///is because of simplicity. It sounds like this is not the way we should be doing it.
 	//Ray-cast and grab what is in reach
 	void Grab();
+	//Call when input for grab is released
+	void Release();
 
 public:	
 	// Sets default values for this component's properties
