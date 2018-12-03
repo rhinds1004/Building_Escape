@@ -35,6 +35,9 @@ private:
 	//Call when input for grab is released
 	void Release();
 
+	// Return hit for first physics body in reach
+	FHitResult GetFirstPhysicsBodyInReach() const;
+
 public:	
 	// Sets default values for this component's properties
 	UGrabber();
