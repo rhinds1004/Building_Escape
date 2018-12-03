@@ -6,6 +6,8 @@
 #include "GameFramework/PlayerController.h"
 #include "DrawDebugHelpers.h"
 #include "CollisionQueryParams.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "Components/PrimitiveComponent.h"
 
 
 #define OUT //just to give context that a parameter is out
@@ -15,16 +17,43 @@ void UGrabber::Grab()
 	UE_LOG(LogTemp, Warning, TEXT("Grabbing!"));
 
 	///LINE TRACE and see if we reach any actors with physics body collision channel set
-	 
+	FHitResult HitResult = GetFirstPhysicsBodyInReach();
+	UPrimitiveComponent *ComponentToGrab = HitResult.GetComponent();
+	AActor *ActorHit = HitResult.GetActor();
 	///If we hit something then attach a physics handle
-	// TODO attach physics handle
-	GetFirstPhysicsBodyInReach();
+		
+	if (ActorHit)
+	{
+		// TODO attach physics handle
+		PhysicsHandle->GrabComponentAtLocationWithRotation
+		(
+			ComponentToGrab,
+			NAME_None,
+			ComponentToGrab->GetOwner()->GetActorLocation(),
+			ComponentToGrab->GetOwner()->GetActorRotation()
+		);
+	}
+	
+	/* just a test to see wht happens with no rotation constraint. Objet flops around being under the control of physics engine
+	if (ActorHit)
+	{
+		// TODO attach physics handle
+		PhysicsHandle->GrabComponentAtLocation
+		(
+			ComponentToGrab,
+			NAME_None,
+			ComponentToGrab->GetOwner()->GetActorLocation()
+		
+		);
+	}
+	*/
 }
 
 void UGrabber::Release()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Released!"));
 	// TODO release physics handle
+	PhysicsHandle->ReleaseComponent();
 }
 
 FHitResult UGrabber::GetFirstPhysicsBodyInReach() const
@@ -137,8 +166,25 @@ void UGrabber::BeginPlay()
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	// if the physics handle is attached
+	// Get Player viewpoint this tick
+	FVector PlayerViewPointLocation;
+	FRotator PlayerViewPointRotation;
+	//getPlayerViewPoint takes references and modifies their contents
+
+	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
+		OUT PlayerViewPointLocation,
+		OUT PlayerViewPointRotation);
+
+	FVector LineTraceEnd = PlayerViewPointLocation + (PlayerViewPointRotation.Vector() * Reach);
+
+	// if the physics handle is attached to a component
+	if (PhysicsHandle->GrabbedComponent)
+	{
 		//move the object that we are holding
+	PhysicsHandle->SetTargetLocationAndRotation(LineTraceEnd, FRotator(0.0f, 0.0f, 0.0f));
+
+	}
+		
 
 
 	
