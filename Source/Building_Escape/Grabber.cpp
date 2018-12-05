@@ -87,7 +87,7 @@ FVector UGrabber::GetReachLineStart()
 void UGrabber::FindPhysicsHandleComponent() 
 {
 	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-	if (PhysicsHandle)
+	if (!PhysicsHandle)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Failed to find PhysicsHandle of %s"), *(GetOwner()->GetName()))
 	}
