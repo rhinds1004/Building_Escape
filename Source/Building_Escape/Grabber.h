@@ -36,7 +36,10 @@ private:
 	void Release();
 
 	// Return hit for first physics body in reach
-	FHitResult GetFirstPhysicsBodyInReach() const;
+	const FHitResult GetFirstPhysicsBodyInReach();
+
+	FVector GetReachLineEnd();
+	FVector GetReachLineStart();
 
 public:	
 	// Sets default values for this component's properties
@@ -50,8 +53,6 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	
-	
 };
 
 
