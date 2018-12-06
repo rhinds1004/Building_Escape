@@ -17,6 +17,9 @@ public:
 	// Sets default values for this component's properties
 	UOpenDoor();
 
+	//Returns mass in Kg
+	float GetTotalMassOFActorsOnTriggerPlate();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -40,8 +43,10 @@ private:
 	UPROPERTY(EditAnywhere)
 		float DoorCloseDelay = 1.0f;
 
+	UPROPERTY(EditAnyWhere)
+		float TriggerPlateTotalMassThreshold;
+
 	float DoorLastOpenTime;
-	//UPROPERTY(EditAnyWhere)
-		AActor *ActorThatOpens;  //Remember pawn inherits from  actor. The actor is set in the Unreal editor 
-		AActor *Owner;
+	
+	AActor *Owner;
 };
