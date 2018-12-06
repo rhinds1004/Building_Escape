@@ -259,7 +259,8 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
-/Content/StarterContent
+/Content/StarterContent/*
+!/Content/StarterContent/Props/SM_TableRound.uasset
 /Intermediate
 /Binaries/Win64/UE4Editor-Building_Escape-1866.dll
 /Binaries/Win64/UE4Editor-Building_Escape-9689.dll
