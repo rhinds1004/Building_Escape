@@ -61,35 +61,12 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	if (GetTotalMassOFActorsOnTriggerPlate() >= TriggerPlateTotalMassThreshold)
 	{
-		DoorLastOpenTime = GetWorld()->GetTimeSeconds();
-		OpenDoor();	
+		OnOpen.Broadcast();
 	}
 	else 
 	{
-		if (GetWorld()->GetTimeSeconds() - DoorLastOpenTime > DoorCloseDelay) {
-			CloseDoor();
-		}
+		OnClose.Broadcast();
 	}
 	
 	// ...
-}
-
-void UOpenDoor::OpenDoor() {
-	
-	if (!Owner)
-	{
-		return;
-	}
-	//Owner->SetActorRotation( FRotator(0.0f, OpenAngle, 0.0f));
-	OnOpenRequest.Broadcast();
-	
-}
-
-void UOpenDoor::CloseDoor()
-{
-	if (!Owner)
-	{
-		return;
-	}
-	Owner->SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
 }
