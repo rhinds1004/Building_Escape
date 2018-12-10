@@ -25,6 +25,8 @@ float UOpenDoor::GetTotalMassOFActorsOnTriggerPlate()
 	float TotalMass = 0.f;
 	TArray<AActor*> OverlappingActors;
 	//find all overlapping actors
+	if (!PressurePlate)
+	{ return TotalMass; }
 	PressurePlate->GetOverlappingActors(OUT OverlappingActors);
 	for(const auto* Actor : OverlappingActors)
 	{
@@ -41,6 +43,15 @@ void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
 	Owner = GetOwner();
+	if (!Owner)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Failed to find Owner"), );
+			return;
+	}
+	if (!PressurePlate)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Failed to find PressurePlate triggger volume of %s"), *(GetOwner()->GetName()))
+	}
 }
 
 
@@ -51,9 +62,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	if (GetTotalMassOFActorsOnTriggerPlate() >= TriggerPlateTotalMassThreshold)
 	{
 		DoorLastOpenTime = GetWorld()->GetTimeSeconds();
-		OpenDoor();
-		
-		
+		OpenDoor();	
 	}
 	else 
 	{
@@ -67,11 +76,19 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 void UOpenDoor::OpenDoor() {
 	
+	if (!Owner)
+	{
+		return;
+	}
 	Owner->SetActorRotation( FRotator(0.0f, OpenAngle, 0.0f));
 	
 }
 
 void UOpenDoor::CloseDoor()
 {
+	if (!Owner)
+	{
+		return;
+	}
 	Owner->SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
 }
