@@ -80,7 +80,8 @@ void UOpenDoor::OpenDoor() {
 	{
 		return;
 	}
-	Owner->SetActorRotation( FRotator(0.0f, OpenAngle, 0.0f));
+	//Owner->SetActorRotation( FRotator(0.0f, OpenAngle, 0.0f));
+	OnOpenRequest.Broadcast();
 	
 }
 
