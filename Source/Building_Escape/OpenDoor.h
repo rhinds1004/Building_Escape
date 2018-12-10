@@ -38,8 +38,9 @@ public:
 		FOnOpenRequest OnOpenRequest;
 
 private:
-	UPROPERTY(EditAnywhere)
+/*	UPROPERTY(EditAnywhere)
 		float OpenAngle = 90.0f;
+		*/
 
 	UPROPERTY(EditAnywhere)
 		ATriggerVolume *PressurePlate = nullptr;
@@ -50,7 +51,7 @@ private:
 	UPROPERTY(EditAnyWhere)
 		float TriggerPlateTotalMassThreshold = 40;
 
-	float DoorLastOpenTime = 0.0;
+	float DoorLastOpenTime;
 	
 	AActor *Owner = nullptr; //owning door
 };
